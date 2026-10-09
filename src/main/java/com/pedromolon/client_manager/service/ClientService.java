@@ -48,6 +48,11 @@ public class ClientService {
         return clientMapper.toResponse(clientRepository.save(client));
     }
 
-
+    public void delete(Long id) {
+        if (!clientRepository.existsById(id)) {
+            throw new IllegalArgumentException("Client not found with this id");
+        }
+        clientRepository.deleteById(id);
+    }
 
 }
