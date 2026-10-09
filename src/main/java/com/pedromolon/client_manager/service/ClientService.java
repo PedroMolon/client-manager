@@ -3,8 +3,9 @@ package com.pedromolon.client_manager.service;
 import com.pedromolon.client_manager.dto.ClientRequestDTO;
 import com.pedromolon.client_manager.dto.ClientResponseDTO;
 import com.pedromolon.client_manager.mapper.ClientMapper;
-import com.pedromolon.client_manager.model.Client;
 import com.pedromolon.client_manager.repository.ClientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,11 @@ public class ClientService {
         return clientMapper.toResponse(
                 clientRepository.save(clientMapper.toEntity(request))
         );
+    }
+
+    public Page<ClientResponseDTO> findAll(Pageable pageable) {
+        return clientRepository.findAllClients(pageable)
+                .map(clientMapper::toResponse);
     }
 
 }
