@@ -3,6 +3,7 @@ package com.pedromolon.client_manager.service;
 import com.pedromolon.client_manager.dto.ClientRequestDTO;
 import com.pedromolon.client_manager.dto.ClientResponseDTO;
 import com.pedromolon.client_manager.mapper.ClientMapper;
+import com.pedromolon.client_manager.model.Client;
 import com.pedromolon.client_manager.repository.ClientRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +35,17 @@ public class ClientService {
         return clientRepository.findById(id)
                 .map(clientMapper::toResponse)
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with this id"));
+    }
+
+    public ClientResponseDTO update(Long id, ClientRequestDTO request) {
+        Client client = clientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with this id"));
+
+        client.setName(request.name());
+        client.setEmail(request.email());
+        client.setCpf(request.cpf());
+
+        return clientMapper.toResponse(clientRepository.save(client));
     }
 
 
