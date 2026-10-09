@@ -30,4 +30,12 @@ public class ClientService {
                 .map(clientMapper::toResponse);
     }
 
+    public ClientResponseDTO findById(Long id) {
+        return clientRepository.findById(id)
+                .map(clientMapper::toResponse)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with this id"));
+    }
+
+
+
 }
